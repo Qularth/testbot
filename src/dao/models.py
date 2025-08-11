@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime,create_engine
 from sqlalchemy.orm import declarative_base
 from datetime import datetime, UTC
 import os
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
@@ -23,4 +25,9 @@ class User(Base):
 engine = create_engine(
     os.getenv("ECHOFROST_DATABASE_URL",'sqlite:///EchoFrost.db'), 
     echo=True)  
+
+async_engine = create_async_engine(
+    os.getenv("ECHOFROST_DATABASE_URL",'sqlite:///EchoFrost.db'), 
+    echo=True)  
    
+AsyncSessionLocale= sessionmaker(async_engine, class_=AsyncSession, expire_on_commit=False)   
