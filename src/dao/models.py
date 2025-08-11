@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime,create_engine
 from sqlalchemy.orm import declarative_base
 from datetime import datetime, UTC
+import os
 
 Base = declarative_base()
 
@@ -19,5 +20,7 @@ class User(Base):
     def __repr__(self):
         return f"<User (id{self.telegram_id}, username='{self.username})'>"
     
-engine = create_engine('sqlite:///EchoFrost.db', echo=True)
-Base.metadata.create_all(engine)    
+engine = create_engine(
+    os.getenv("ECHOFROST_DATABASE_URL",'sqlite:///EchoFrost.db'), 
+    echo=True)  
+   
